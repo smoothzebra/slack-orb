@@ -1,3 +1,4 @@
+#!/bin/sh
 BuildMessageBody() {
     # Send message
     #   If sending message, default to custom template,
@@ -96,7 +97,7 @@ FilterBy() {
 
     # If any pattern supplied matches the current branch or the current tag, proceed; otherwise, exit with message.
     FLAG_MATCHES_FILTER="false"
-    for i in $(echo "${1//,/ }")
+    for i in $(echo "$1" | sed 's/,/ /g')
     do
         if echo "$2" | grep -Eq "^${i}$"; then
             FLAG_MATCHES_FILTER="true"
