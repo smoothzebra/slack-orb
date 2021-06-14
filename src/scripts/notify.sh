@@ -7,12 +7,10 @@ BuildMessageBody() {
     if [ -n "${SLACK_PARAM_CUSTOM:-}" ]; then
         ModifyCustomTemplate
         # shellcheck disable=SC2016
-        echo "DEBUG:1"
         CUSTOM_BODY_MODIFIED=$(echo "$CUSTOM_BODY_MODIFIED" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed 's/`/\\`/g')
         T2=$(eval echo \""$CUSTOM_BODY_MODIFIED"\")
     elif [ -n "${SLACK_PARAM_TEMPLATE:-}" ]; then
         TEMPLATE="\$$SLACK_PARAM_TEMPLATE"
-        echo "DEBUG:2"
         T1=$(eval echo "$TEMPLATE" | sed 's/"/\\"/g')
         T2=$(eval echo \""$T1"\")
     else
@@ -31,7 +29,6 @@ PostToSlack() {
     #    The channel must be modified in SLACK_MSG_BODY
 
     # shellcheck disable=SC2001
-    echo "DEBUG:3"
     for i in $(eval echo \""$SLACK_PARAM_CHANNEL"\" | sed 's/,/ /g')
     do
         echo "Sending to Slack Channel: $i"
@@ -100,7 +97,6 @@ FilterBy() {
 
     # If any pattern supplied matches the current branch or the current tag, proceed; otherwise, exit with message.
     FLAG_MATCHES_FILTER="false"
-    echo "DEBUG:4"
     for i in $(echo "$1" | sed 's/,/ /g')
     do
         if echo "$2" | grep -Eq "^${i}$"; then
