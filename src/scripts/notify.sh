@@ -64,7 +64,8 @@ InstallJq() {
         return $?
 
     elif [ ! -e /etc/issue ]; then
-        echo "/etc/issue doesn't exist, can't determine how to install jq."
+        echo "/etc/issue doesn't exist, Assuming Windows"
+        exit 1
 
     elif cat /etc/issue | grep Debian > /dev/null 2>&1 || cat /etc/issue | grep Ubuntu > /dev/null 2>&1; then
         echo "Checking For JQ + CURL: Debian"
