@@ -154,8 +154,16 @@ ShouldPost() {
     if [ "$CCI_STATUS" = "$SLACK_PARAM_EVENT" ] || [ "$SLACK_PARAM_EVENT" = "always" ]; then
         # In the event the Slack notification would be sent, first ensure it is allowed to trigger
         # on this branch or this tag.
-        FilterBy "$SLACK_PARAM_BRANCHPATTERN" "${CIRCLE_BRANCH:-}"
-        FilterBy "$SLACK_PARAM_TAGPATTERN" "${CIRCLE_TAG:-}"
+        if [ -n "$SLACK_PARAM_BRANCH" ] && [ -n "$SLACK_PARAM_TAGPATTERN" ]; then
+            FilterBy "$SLACK_PARAM_BRANCH" "$CCI_BRANCH"
+            FilterBy "$SLACK_PARAM_TAGPATTERN" "${CIRCLE_TAG:-}"
+
+        elif [ -n "$SLACK_PARAM_BRANCH" ]; then
+            FilterBy "$SLACK_PARAM_BRANCH" "$CCI_BRANCH"
+        
+        elif [ -n "$SLACK_PARAM_TAGPATTERN" ]; then
+            FilterBy "$SLACK_PARAM_TAGPATTERN" "${CIRCLE_TAG:-}"
+        fi
 
         echo "Posting Status"
     else
