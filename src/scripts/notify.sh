@@ -151,6 +151,7 @@ CheckEnvVars() {
 }
 
 ShouldPost() {
+    set -x
     if [ "$CCI_STATUS" = "$SLACK_PARAM_EVENT" ] || [ "$SLACK_PARAM_EVENT" = "always" ]; then
         # In the event the Slack notification would be sent, first ensure it is allowed to trigger
         # on this branch or this tag.
@@ -174,6 +175,7 @@ ShouldPost() {
         echo "Current status: ${CCI_STATUS}"
         exit 0
     fi
+    set +x
 }
 
 SetupLogs() {
