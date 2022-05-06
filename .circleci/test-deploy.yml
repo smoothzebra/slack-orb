@@ -81,6 +81,13 @@ jobs:
       - slack/notify:
           branch_pattern: "master"
           invert_match: true
+      - slack/notify:
+          branch_pattern: "master"
+      - slack/notify:
+          tag_pattern: v\d+\.\d+\.\d+
+      - slack/notify:
+          tag_pattern: v\d+\.\d+\.\d+
+          branch_pattern: "master"
 
 workflows:
   test-deploy:
